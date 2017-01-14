@@ -9,7 +9,7 @@ sequential manner.
 Nutshell
 --------
 
-Here a small example of a Jinja2 template::
+Here a quick interpreter demo:
 
     >>> from stages import Runner
     >>> runner = Runner("config_file", heading="Example run")

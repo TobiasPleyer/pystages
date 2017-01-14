@@ -15,5 +15,5 @@ run: mkdir ${env:git_repo} && cd ${env:git_repo} && git init
 [branch]
 short: Creates a new branch ${env:branch_name}
 info: Will run the follwoing command
-	git checkout -b ${env:branch_name}
-run: git checkout -b ${env:branch_name}
+	cd ${env:git_repo} && git checkout -b ${env:branch_name}
+run: cd ${env:git_repo} && git checkout -b ${env:branch_name}
