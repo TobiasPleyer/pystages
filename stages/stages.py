@@ -5,9 +5,10 @@ import configparser
 from subprocess import call, Popen
 from colorama import init as init_colorama, deinit as deinit_colorama, Fore
 from colorama.ansi import clear_screen
-from os import getcwd, remove
+from os import environ, getcwd, remove
 from contextlib import contextmanager
 from .compat import get_input
+from .texts import _help
 
 
 class Runner(object):
@@ -105,12 +106,16 @@ class Runner(object):
         elif action in ["O", "OPEN"]:
             script = current.get('script', None)
             if script:
-                Popen(['notepad', script]) # Use Popen to make the call non-blocking
-                result = (False, "")
+                editor = environ.get('EDITOR', None)
+                if not editor:
+                    result = (False, self._make_red("No editor could be found! Please provide the environment variable EDITOR.\n"))
+                else:
+                    Popen([editor, script]) # Use Popen to make the call non-blocking
+                    result = (False, "")
             else:
                 result = (False, self._make_red("No file associated with this stage!\n"))
         elif action in ["H", "HELP"]:
-            result = (False, self._make_yellow(self.help))
+            result = (False, self._make_yellow(_help))
         else:
             result = (False, self._make_red("Unknown command!\n"))
         return result
@@ -151,13 +156,14 @@ class Runner(object):
                 todo.append(stage_data)
             
             next = True
-            while todo:
+            while todo or current:
                 if next:
                     current, todo = todo[0], todo[1:]
                 self._print_progress(progress, current, todo, message)
                 (next, result) = self._query_input(current)
                 if next:
                     progress += result
+                    current = None
                     message = ""
                 else:
                     message = result
