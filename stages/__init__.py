@@ -21,6 +21,6 @@ Here a quick interpreter demo:
 __version__ = '1.0.dev'
 
 # high level interface
-from stages.stages import Runner
+from .stages import Runner
 
 __all__ = ['Runner']

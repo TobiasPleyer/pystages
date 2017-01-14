@@ -44,6 +44,6 @@ setup(
         'Topic :: Software Development',
     ],
     packages=['stages'],
-    install_requires=['colorama'],
+    install_requires=['configparser', 'colorama'],
     include_package_data=True
 )

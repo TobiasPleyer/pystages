@@ -7,6 +7,7 @@ from colorama import init as init_colorama, deinit as deinit_colorama, Fore
 from colorama.ansi import clear_screen
 from os import getcwd, remove
 from contextlib import contextmanager
+from .compat import get_input
 
 
 class Runner(object):
@@ -75,7 +76,7 @@ class Runner(object):
             print(message)
             
     def _query_input(self, current):
-        action = input("[(R)un/(d)one/(f)ail/(i)nfo/(s)kip/(c)ancel/(o)pen/(h)elp]? ").upper()
+        action = get_input("[(R)un/(d)one/(f)ail/(i)nfo/(s)kip/(c)ancel/(o)pen/(h)elp]? ").upper()
         result = ()
         if action == "":
             action = "RUN"
